@@ -55,7 +55,7 @@ module.exports = {
         compress: true,
         port: 6060,
         open: true,
-        contentBase: './file'
+        contentBase: './public'
     },
     plugins: [
         new cleanWebpackPlugin(['dist']),
@@ -64,7 +64,7 @@ module.exports = {
         }),
         new htmlWebpackPlugin({
             template: './public/index.html',
-            favicon: './file/favicon.ico'
+            favicon: './public/favicon.ico'
         })
     ]
 
