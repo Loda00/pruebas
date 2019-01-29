@@ -71,7 +71,10 @@ class App extends Component {
                 </div>
                 <ReactFancyBox
                     thumbnail="https://loremflickr.com/320/240"
-                    image="https://loremflickr.com/320/240"/>
+                    image="https://loremflickr.com/320/240"
+                    >   
+                </ReactFancyBox>
+                {/* http://minutemailer.github.io/react-popup/ */}
             </div>
             
         )
