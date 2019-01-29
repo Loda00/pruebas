@@ -1,0 +1,14 @@
+{
+    "data":[
+        {
+            "name": "Juan",
+            "age": 16,
+            "country": "Perú"
+        },
+        {
+            "name": "Lorena",
+            "age": 22,
+            "country": "Bolivia"
+        }
+    ]
+}

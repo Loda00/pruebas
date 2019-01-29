@@ -13,6 +13,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: './js/[name].bundle.js'
     },
+    cache: true,
     module: {
         rules: [
             {

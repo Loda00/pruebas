@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import './style.scss'
-import '../../public/favicon.ico'
+import './style.sass'
+import Index from '../index/app'
 
 class App extends Component {
 
@@ -13,7 +13,7 @@ class App extends Component {
         return(
 
             <React.Fragment>
-                <div className="wea">Init</div>
+                <Index></Index>
             </React.Fragment>
             
         )
