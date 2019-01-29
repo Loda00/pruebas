@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import ReactFancyBox from 'react-fancybox'
+import 'react-fancybox/lib/fancybox.css'
 import './style.sass'
 import '../../public/favicon.ico'
 import Button from '../button/app'
@@ -57,7 +59,6 @@ class App extends Component {
                                         <tr key={index}>
                                             <td>{persona.name}</td>
                                             <td>{persona.country}</td>
-                                            {/* <td>{String(persona.registered.date).substring(persona.registered.date.indexOf('T'),0)}</td> */}
                                         </tr>
                                     )
                                 })
@@ -68,6 +69,9 @@ class App extends Component {
                 <div>
                     <Button name="LISTAR" click={this.postData} />
                 </div>
+                <ReactFancyBox
+                    thumbnail="https://loremflickr.com/320/240"
+                    image="https://loremflickr.com/320/240"/>
             </div>
             
         )
