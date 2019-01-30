@@ -67,11 +67,11 @@ module.exports = {
             template: './public/index.html',
             favicon: './public/favicon.ico'
         }),
-        new webpack.ProvidePlugin( {
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
-        })
+        // new webpack.ProvidePlugin( {
+        //     $: 'jquery',
+        //     jQuery: 'jquery',
+        //     'window.jQuery': 'jquery'
+        // })
     ]
 
 }
