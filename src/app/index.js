@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
-
-import App from './main/app'
+// import { BrowserRouter } from 'react-router-dom';
+import App from './Clock/toogle'
 
 
 render(<App/>, document.getElementById('app'))

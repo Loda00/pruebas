@@ -4,6 +4,7 @@ import Boton from '../Button/app'
 import axios from 'axios'
 import './style.sass'
 import '../../public/favicon.ico'
+import Time from '../Time/app'
 
 class App extends Component {
 
@@ -129,9 +130,17 @@ class App extends Component {
         })
     }
 
+    test = () => {
+        return (
+            <p>test</p>
+        );
+    }
+
+
     render() {
 
         return (
+            
 
             <React.Fragment>
                 <div className="formulario">

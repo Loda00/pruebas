@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import './style.sass'
 import Index from '../index/app'
+import Match from '../MatchRouter/app'
+import Menu from '../Menu/app'
 
 class App extends Component {
 
@@ -13,12 +15,9 @@ class App extends Component {
         return(
 
             <React.Fragment>
-                {/* <div className="menu">
-                    <div className="menu_item"><a href="#">React</a></div>
-                    <div className="menu_item"><a href="#">Redux</a></div>
-                    <div className="menu_item"><a href="#">Flux</a></div>
-                </div> */}
+                <Menu/>
                 <Index className="margen" ></Index>
+                {/* <Match/> */}
             </React.Fragment>
             
         )
