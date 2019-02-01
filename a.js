@@ -23,7 +23,7 @@
 // 		notaRequerida = va['nota'];
 // 		if( (notaRequerida in contador) && contador[notaRequerida]==val[numero]) {
 // 			reglasCumplidas.push(val['id'])
-		
+
 // 		}
 // 	}
 // }        
