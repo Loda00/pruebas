@@ -13,9 +13,9 @@ class App extends Component {
         return(
 
             <div className="menu">
-                <div className="menu_item"><NavLink to="/">React</NavLink></div>
-                <div className="menu_item"><NavLink to="/redux">Redux</NavLink></div>
-                <div className="menu_item"><NavLink to="/flux">Flux</NavLink></div>
+                <div className="menu_item"><a to="/">React</a></div>
+                <div className="menu_item"><a to="/redux">Redux</a></div>
+                <div className="menu_item"><a to="/flux">Flux</a></div>
             </div>
             
         )

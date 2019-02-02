@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import {Button,Row, Modal,Input, Icon} from 'react-materialize'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from '@material-ui/core'
 import Boton from '../Button/app'
 import axios from 'axios'
 import './style.sass'
 import '../../public/favicon.ico'
-import Time from '../Time/app'
 
 class App extends Component {
 
@@ -14,7 +13,8 @@ class App extends Component {
             personas: [],
             name: '',
             age: '',
-            country: ''
+            country: '',
+            isOpenModal: false
         }
         axios.defaults.baseURL = 'http://localhost:7070'
         // axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
@@ -70,13 +70,12 @@ class App extends Component {
 
         axios.post('/data', data)
             .then(() => {
-                this.getData()
                 this.cleanForm()
+                this.getData()
                 M.toast({html: 'Agregado !'})
             })
             .catch(e => console.log(e))
     }
-
 
     editUser = (user) => {
         
@@ -108,6 +107,18 @@ class App extends Component {
         })
     }
 
+    handleCloseModal = () => {
+        this.setState({
+            isOpenModal: false
+        })
+    }
+
+    handleOpenModal = () => {
+        this.setState({
+            isOpenModal: true
+        })
+    }
+
     // componentDidMount () {
     //     this.
     // }
@@ -130,39 +141,21 @@ class App extends Component {
         })
     }
 
-    test = () => {
-        return (
-            <p>test</p>
-        );
-    }
-
 
     render() {
+        
 
         return (
             
-
             <React.Fragment>
                 <div className="formulario">
                     <form onSubmit={this.addUser}>
-                        {/* <div className="input-field col s12">
-                            <input id="name" type="text" name="name" value={this.state.name} onChange={this.catchInput} className="validate" />
-                            <label htmlFor="name">Nombres y Apellidos</label>
+                        <div>
+                            <TextField value={this.state.name} autoComplete="off" name="name" onChange={this.catchInput} label="Nombres y Apellidos" />
+                            <TextField value={this.state.country} autoComplete="off" name="country" onChange={this.catchInput} label="País"/>
+                            <TextField value={this.state.age} autoComplete="off" name="age" onChange={this.catchInput} label="Edad" />
                         </div>
-                        <div className="input-field col s12">
-                            <input id="country" type="text" name="country" value={this.state.country} onChange={this.catchInput} className="validate" />
-                            <label htmlFor="country">País</label>
-                        </div>
-                        <div className="input-field col s12">
-                            <input id="age" type="number" name="age" value={this.state.age} onChange={this.catchInput} className="validate" />
-                            <label htmlFor="age">Edad</label>
-                        </div> */}
-                        <Row>
-                            <Input defaultValue={this.state.name} autoComplete="off" name="name" onChange={this.catchInput} s={12} label="Nombres y Apellidos" />
-                            <Input defaultValue={this.state.country} autoComplete="off" name="country" onChange={this.catchInput} s={12} label="País"/>
-                            <Input defaultValue={this.state.age} autoComplete="off" name="age" onChange={this.catchInput} s={12} label="Edad" />
-                        </Row>
-                        <Boton name="AGREGAR" />
+                        <Boton name="AGREGAR" ></Boton>
                     </form>
                 </div>
                 <div className="tabla">
@@ -185,20 +178,31 @@ class App extends Component {
                                             <td>{persona.age}</td>
                                             <td>{persona.country}</td>
                                             <td>
-                                            <Button onClick={() => {$('#modal').modal('open'), this.editUser(persona)
-                                            }}>Editar</Button>
-                                                <Modal header='Actualizar Usuario' id="modal" className="modal">
-                                                    <Row>
-                                                        <Input defaultValue={this.state.name} autoComplete="off" onChange={this.catchInput} name="name" label="Nombres y Apellidos" s={12} label="First Name" />
-                                                        <Input defaultValue={this.state.country} autoComplete="off" onChange={this.catchInput} name="country" s={12} label="País" />
-                                                        <Input defaultValue={this.state.age} autoComplete="off" onChange={this.catchInput} name="age" s={12} label="Edad" />
-                                                    </Row>
-                                                    <div className="modal_botones">
-                                                        <Button modal="close" onClick={() => this.postData(persona)} >Guardar</Button>
-                                                        <Button modal="close" >Cerrar</Button>
-                                                    </div>
-                                                </Modal>
-                                                </td>
+                                            <Button onClick={this.handleOpenModal}  >Editar</Button>
+                                            <Dialog
+                                                open={this.state.isOpenModal}
+                                                onClose={this.handleCloseModal}
+                                                // PaperComponent={PaperComponent}
+                                                aria-labelledby="editar"
+                                            >
+                                                <DialogTitle id="editar">Subscribe</DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText>
+                                                        <TextField value={this.state.name} autoComplete="off" name="name" onChange={this.catchInput} label="Nombres y Apellidos" />
+                                                        <TextField value={this.state.country} autoComplete="off" name="country" onChange={this.catchInput} label="País"/>
+                                                        <TextField value={this.state.age} autoComplete="off" name="age" onChange={this.catchInput} label="Edad" />
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={this.handleCloseModal} variant="contained" color="primary">
+                                                        Save
+                                                    </Button>
+                                                    <Button onClick={this.handleCloseModal} variant="contained" color="primary">
+                                                        Exit
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                                </td> 
                                             <td><Button onClick={() => this.deleteUser(persona.id)}>Eliminar</Button></td>
                                         </tr>
                                     )

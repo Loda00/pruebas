@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import './style.sass'
 import Index from '../index/app'
-import Match from '../MatchRouter/app'
 import Menu from '../Menu/app'
 
 class App extends Component {
