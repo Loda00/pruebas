@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from '@material-ui/core'
+import { TextField, Button, Dialog,  DialogTitle, DialogContent, DialogActions, DialogContentText,
+Table, TableHead, TableRow, TableCell, TableBody, } from '@material-ui/core'
+import {ToastContainer, ToastStore} from 'react-toasts'
+import {NotificationContainer, NotificationManager} from 'react-notifications'
 import Boton from '../Button/app'
 import axios from 'axios'
+// import 'react-notifications/lib/notifications.css'
 import './style.sass'
 import '../../public/favicon.ico'
 
@@ -42,19 +46,19 @@ class App extends Component {
         const { name, country, age } = this.state
 
         if (name.length == 0) {
-            M.toast({ html: 'Ingrese su nombre' })
+            ToastStore.warning('Ingrese su nombre')
             e.preventDefault()
             return
         }
 
         if (country.length == 0) {
-            M.toast({ html: 'Ingrese el País' })
+            ToastStore.warning('Ingrese el País')
             e.preventDefault()
             return
         }
 
         if (age.length == 0) {
-            M.toast({ html: 'Ingrese el Edad' })
+            ToastStore.warning('Ingrese el Edad')
             e.preventDefault()
             return
         }
@@ -63,18 +67,34 @@ class App extends Component {
         this.postData()
     }
 
-    postData = () => {
-        const { name, age, country } = this.state
-        const id = (Math.random() * 1000).toString().split('.')[1];
-        const data = { id: Number(id), name, age: Number(age), country }
+    postData = (id) => {
+        console.log('obj', id);
 
-        axios.post('/data', data)
+        const { name, age, country } = this.state
+        const data = { name, age: Number(age), country }
+
+        if (id === undefined){
+            const id = (Math.random() * 1000).toString().split('.')[1];
+            data.id = id
+            axios.post('/data', data)
+                .then(() => {
+                    this.cleanForm()
+                    this.getData()
+                    // M.toast({html: 'Agregado !'})
+                    ToastStore.success(`Agregado ususario ${name} !`)
+                })
+                .catch(e => console.log(e))
+        } else {
+            axios.put(`/data/${id}`, data)
             .then(() => {
                 this.cleanForm()
                 this.getData()
-                M.toast({html: 'Agregado !'})
+                this.handleCloseModal()
+                ToastStore.success(`Actualizado usuario ${name} !`)
             })
             .catch(e => console.log(e))
+        }
+        
     }
 
     editUser = (user) => {
@@ -84,17 +104,18 @@ class App extends Component {
         this.setState({
             ...user
         })
+
         console.log('editando', this.state)
 
         console.log('user', {...user})
     }
 
-    deleteUser = (id) => {
-        console.log(id)
-        axios.delete(`/data/${id}`)
+    deleteUser = (obj) => {
+        console.log(obj)
+        axios.delete(`/data/${obj.id}`)
         .then(() => {
             this.getData()
-            M.toast({html: 'Eliminado !'})
+            ToastStore.error(`Eliminado usuario ${obj.name} !`)
         })
         .catch(e => console.log(e))
     }
@@ -109,27 +130,22 @@ class App extends Component {
 
     handleCloseModal = () => {
         this.setState({
-            isOpenModal: false
+            isOpenModal: false,
+            name: '',
+            country: '',
+            age: ''
         })
     }
 
-    handleOpenModal = () => {
+    handleOpenModal = (persona) => {
+        const {name, country, age} = persona
         this.setState({
-            isOpenModal: true
+            isOpenModal: true,
+            name,
+            country,
+            age
         })
     }
-
-    // componentDidMount () {
-    //     this.
-    // }
-
-    // componentWillUpdate(){
-    //     this.setState({
-    //         name: this.state.name,
-    //         age:  this.state.age,
-    //         country:  this.state.country
-    //     })
-    // }
 
 
     catchInput = (e) => {
@@ -144,7 +160,6 @@ class App extends Component {
 
     render() {
         
-
         return (
             
             <React.Fragment>
@@ -155,46 +170,47 @@ class App extends Component {
                             <TextField value={this.state.country} autoComplete="off" name="country" onChange={this.catchInput} label="País"/>
                             <TextField value={this.state.age} autoComplete="off" name="age" onChange={this.catchInput} label="Edad" />
                         </div>
-                        <Boton name="AGREGAR" ></Boton>
+                        <Boton name="AGREGAR"></Boton>
                     </form>
                 </div>
                 <div className="tabla">
-                    <table className="striped highlight">
-                        <thead>
-                            <tr>
-                                <th>Nombres</th>
-                                <th>Edad</th>
-                                <th>País</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Nombres</TableCell>
+                                <TableCell>Edad</TableCell>
+                                <TableCell>País</TableCell>
+                                <TableCell>Editar</TableCell>
+                                <TableCell>Eliminar</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
                             {
                                 this.state.personas.map((persona, index) => {
                                     return (
-                                        <tr key={index}>
-                                            <td>{persona.name}</td>
-                                            <td>{persona.age}</td>
-                                            <td>{persona.country}</td>
-                                            <td>
-                                            <Button onClick={this.handleOpenModal}  >Editar</Button>
+                                        <TableRow key={index}>
+                                            <TableCell>{persona.name}</TableCell>
+                                            <TableCell>{persona.age}</TableCell>
+                                            <TableCell>{persona.country}</TableCell>
+                                            <TableCell>
+                                            <Button onClick={() => this.handleOpenModal(persona)}>Editar</Button>
                                             <Dialog
                                                 open={this.state.isOpenModal}
                                                 onClose={this.handleCloseModal}
-                                                // PaperComponent={PaperComponent}
                                                 aria-labelledby="editar"
+                                                maxWidth="xs"
                                             >
                                                 <DialogTitle id="editar">Subscribe</DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText>
-                                                        <TextField value={this.state.name} autoComplete="off" name="name" onChange={this.catchInput} label="Nombres y Apellidos" />
-                                                        <TextField value={this.state.country} autoComplete="off" name="country" onChange={this.catchInput} label="País"/>
-                                                        <TextField value={this.state.age} autoComplete="off" name="age" onChange={this.catchInput} label="Edad" />
+                                                        Probando esta wea
                                                     </DialogContentText>
+                                                        <TextField value={this.state.name} fullWidth autoComplete="off" name="name" onChange={this.catchInput} label="Nombres y Apellidos" />
+                                                        <TextField value={this.state.country} fullWidth autoComplete="off" name="country" onChange={this.catchInput} label="País"/>
+                                                        <TextField value={this.state.age} fullWidth autoComplete="off" name="age" onChange={this.catchInput} label="Edad" />
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={this.handleCloseModal} variant="contained" color="primary">
+                                                    <Button onClick={() => this.postData(persona.id)} variant="contained" color="primary">
                                                         Save
                                                     </Button>
                                                     <Button onClick={this.handleCloseModal} variant="contained" color="primary">
@@ -202,15 +218,16 @@ class App extends Component {
                                                     </Button>
                                                 </DialogActions>
                                             </Dialog>
-                                                </td> 
-                                            <td><Button onClick={() => this.deleteUser(persona.id)}>Eliminar</Button></td>
-                                        </tr>
+                                                </TableCell> 
+                                            <td><Button onClick={() => this.deleteUser(persona)}>Eliminar</Button></td>
+                                        </TableRow>
                                     )
                                 })
                             }
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
+                <ToastContainer className="toast" position={ToastContainer.POSITION.BOTTOM_LEFT} store={ToastStore}/>
             </React.Fragment>
         )
     }

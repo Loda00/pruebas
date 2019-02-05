@@ -2,7 +2,7 @@ import React from 'react'
 // import Button from '../button/app'
 import Label from './label'
 import Calculador from './calculador'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Paper } from '@material-ui/core'
+import { TextField,Avatar, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Paper } from '@material-ui/core'
 import Draggable from 'react-draggable';
 const api = 'https://demo1443058.mockable.io/codeproject_tutorial/api/contacts'
 
@@ -98,19 +98,6 @@ class Toogle extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                {/* <Button click={this.handleClick} name={this.state.isToogle ? 'ON' : 'OF'} />
-                <Label warn={this.state.isToogle} />
-                <ul>
-                    {
-                        this.state.names.map((name,key) => (<li key={key}>{name}</li>))
-                    }
-                </ul>
-                <input type="text" name="text" value={this.state.text} onChange={this.handleChange} />
-                <Button name="Submit" click={this.handleSubmit} />
-                <div>
-                    <input type="text" name="temperatura" value={this.state.temperatura} onChange={this.handleChange} />
-                    <Calculador cell={Number(this.state.temperatura)} ></Calculador>
-                </div> */}
             </div>
         )
     }
