@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { TextField, Button, Dialog,  DialogTitle, DialogContent, DialogActions, DialogContentText,
 Table, TableHead, TableRow, TableCell, TableBody, } from '@material-ui/core'
 import {ToastContainer, ToastStore} from 'react-toasts'
-import {NotificationContainer, NotificationManager} from 'react-notifications'
 import Boton from '../Button/app'
 import axios from 'axios'
 // import 'react-notifications/lib/notifications.css'
