@@ -7,17 +7,20 @@ import axios from 'axios'
 // import 'react-notifications/lib/notifications.css'
 import './style.sass'
 import '../../public/favicon.ico'
+import { setInterval } from 'timers';
 
 class App extends Component {
 
     constructor() {
         super()
+        this.time = ''
         this.state = {
             personas: [],
             name: '',
             age: '',
             country: '',
-            isOpenModal: false
+            isOpenModal: false,
+            date: new Date()
         }
         axios.defaults.baseURL = 'http://localhost:7070'
         // axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
@@ -79,7 +82,6 @@ class App extends Component {
                 .then(() => {
                     this.cleanForm()
                     this.getData()
-                    // M.toast({html: 'Agregado !'})
                     ToastStore.success(`Agregado ususario ${name} !`)
                 })
                 .catch(e => console.log(e))
@@ -156,12 +158,32 @@ class App extends Component {
         })
     }
 
+    getCurrentDate = () => {
+        this.setState({
+            date: new Date()
+        })
+    }
+
+    componentDidMount () {
+        this.time = setInterval(()=> {
+            this.getCurrentDate()
+            console.log('this.time', this.time)
+        }, 1000)
+    }
+
+    componentWillUnmount () {
+        clearInterval(this.time)
+    }
 
     render() {
         
         return (
             
             <React.Fragment>
+                <div>
+                    <h4>Hora : </h4>
+                    <p>{this.state.date.toLocaleTimeString()}</p>
+                </div>
                 <div className="formulario">
                     <form onSubmit={this.addUser}>
                         <div>
