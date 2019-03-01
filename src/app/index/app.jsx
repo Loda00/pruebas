@@ -167,13 +167,14 @@ class App extends Component {
     componentDidMount () {
         this.time = setInterval(()=> {
             this.getCurrentDate()
-            console.log('this.time', this.time)
         }, 1000)
     }
 
     componentWillUnmount () {
         clearInterval(this.time)
     }
+
+    componentWillReceiveProps
 
     render() {
         
